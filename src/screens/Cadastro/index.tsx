@@ -12,6 +12,7 @@ import {
 } from './styles';
 import { Button } from '../../components/form/Button';
 import { TransactionTypeButton } from '../../components/form/TransactionTypeButton';
+import { CategorySelect } from '../../components/form/CategorySelect';
 
 export const Cadastro = () => {
   const [selectedType, setSelectedType] = useState('');
@@ -47,6 +48,8 @@ export const Cadastro = () => {
               type="down"
             />
           </TransactionTypes>
+
+          <CategorySelect title="Categoria" />
         </Fields>
 
         <Button title="Enviar" />
