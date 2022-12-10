@@ -12,6 +12,7 @@ import theme from './src/global/styles/theme';
 
 import { Dashboard } from './src/screens/Dashborad';
 import { Cadastro } from './src/screens/Cadastro';
+import { CategorySelect } from './src/screens/CategorySelect';
 
 export default function App() {
   const [fonstLoaded] = useFonts({
@@ -25,7 +26,7 @@ export default function App() {
   }
   return (
     <ThemeProvider theme={theme}>
-      <Cadastro />
+      <CategorySelect />
     </ThemeProvider>
   );
 }
