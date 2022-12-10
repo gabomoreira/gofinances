@@ -1,7 +1,11 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 
 import { Feather } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
+
+interface ITypeProps {
+  type: 'positive' | 'negative';
+}
 
 export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.shape};
@@ -15,11 +19,14 @@ export const Title = styled.Text`
   font-size: ${RFValue(14)}px;
 `;
 
-export const Amount = styled.Text`
+export const Amount = styled.Text<ITypeProps>`
   font-family: ${({ theme }) => theme.fonts.regular};
   border-radius: 5px;
   font-size: ${RFValue(20)}px;
   margin-top: 2px;
+
+  color: ${({ type, theme }) =>
+    type === 'positive' ? theme.colors.success : theme.colors.attention};
 `;
 
 export const Footer = styled.View`
