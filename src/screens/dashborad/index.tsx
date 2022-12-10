@@ -35,9 +35,24 @@ export const Dashboard = () => {
       </Header>
 
       <HightLightCards>
-        <HightLightCard />
-        <HightLightCard />
-        <HightLightCard />
+        <HightLightCard
+          type="up"
+          title="Entradas"
+          amount="R$ 77.797,00"
+          lastTransaction="Última entrada no dia 10 de novembro"
+        />
+        <HightLightCard
+          type="down"
+          title="Entradas"
+          amount="R$ 77.797,00"
+          lastTransaction="Última entrada no dia 10 de novembro"
+        />
+        <HightLightCard
+          type="total"
+          title="Entradas"
+          amount="R$ 77.797,00"
+          lastTransaction="Última entrada no dia 10 de novembro"
+        />
       </HightLightCards>
     </Container>
   );
