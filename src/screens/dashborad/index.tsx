@@ -17,6 +17,7 @@ import {
 
 import { StatusBar } from 'react-native';
 import { HightLightCard } from '../../components/highlightCard';
+import { TransactionCard } from '../../components/transactionCard';
 
 export const Dashboard = () => {
   return (
@@ -59,6 +60,8 @@ export const Dashboard = () => {
 
       <Transactions>
         <Title>Transações</Title>
+
+        <TransactionCard />
       </Transactions>
     </Container>
   );
