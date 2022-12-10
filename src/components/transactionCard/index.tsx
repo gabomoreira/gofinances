@@ -11,18 +11,34 @@ import {
   Date,
 } from './styles';
 
-export const TransactionCard = () => {
+interface Category {
+  name: string;
+  icon: string;
+}
+
+interface Data {
+  title: string;
+  amount: string;
+  category: Category;
+  date: string;
+}
+
+interface ITransactionCardProps {
+  data: Data;
+}
+
+export const TransactionCard = ({ data }: ITransactionCardProps) => {
   return (
     <Container>
-      <Title>Desenvolvimento de Site</Title>
-      <Amount>R$ 1.200,00</Amount>
+      <Title>{data.title}</Title>
+      <Amount>{data.amount}</Amount>
 
       <Footer>
         <Category>
-          <Icon name="dollar-sign" />
-          <CategoryName>Vendas</CategoryName>
+          <Icon name={data.category.icon} />
+          <CategoryName>{data.category.name}</CategoryName>
         </Category>
-        <Date>10/12/2022</Date>
+        <Date>{data.date}</Date>
       </Footer>
     </Container>
   );

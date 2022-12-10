@@ -13,11 +13,51 @@ import {
   HightLightCards,
   Transactions,
   Title,
+  TransactionList,
 } from './styles';
 
 import { StatusBar } from 'react-native';
 import { HightLightCard } from '../../components/highlightCard';
 import { TransactionCard } from '../../components/transactionCard';
+
+const cards = [
+  {
+    title: 'Estágio',
+    amount: 'R$ 1.200,00',
+    category: {
+      name: 'Vendas',
+      icon: 'dollar-sign',
+    },
+    date: '10/12/2022',
+  },
+  {
+    title: 'Desenvolvimento de Site',
+    amount: 'R$ 7.200,00',
+    category: {
+      name: 'Vendas',
+      icon: 'dollar-sign',
+    },
+    date: '20/03/2023',
+  },
+  {
+    title: 'Desenvolvimento de Site',
+    amount: 'R$ 7.200,00',
+    category: {
+      name: 'Vendas',
+      icon: 'dollar-sign',
+    },
+    date: '20/03/2023',
+  },
+  {
+    title: 'Desenvolvimento de Site',
+    amount: 'R$ 7.200,00',
+    category: {
+      name: 'Vendas',
+      icon: 'dollar-sign',
+    },
+    date: '20/03/2023',
+  },
+];
 
 export const Dashboard = () => {
   return (
@@ -61,7 +101,14 @@ export const Dashboard = () => {
       <Transactions>
         <Title>Transações</Title>
 
-        <TransactionCard />
+        <TransactionList
+          data={cards}
+          renderItem={({ item }) => <TransactionCard data={item} />}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingBottom: 20,
+          }}
+        />
       </Transactions>
     </Container>
   );
