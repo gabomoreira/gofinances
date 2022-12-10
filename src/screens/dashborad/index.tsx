@@ -17,11 +17,11 @@ import {
 } from './styles';
 
 import { StatusBar } from 'react-native';
-import { HightLightCard } from '../../components/highlightCard';
+import { HightLightCard } from '../../components/HighlightCard';
 import {
   TransactionCard,
   ITransactionCardProps,
-} from '../../components/transactionCard';
+} from '../../components/TransactionCard';
 
 export interface DataListProps extends ITransactionCardProps {
   id: string;
