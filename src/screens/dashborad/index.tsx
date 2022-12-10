@@ -11,9 +11,11 @@ import {
   UserName,
   PowerIcon,
   HightLightCards,
+  Transactions,
+  Title,
 } from './styles';
 
-import { StatusBar, Text } from 'react-native';
+import { StatusBar } from 'react-native';
 import { HightLightCard } from '../../components/highlightCard';
 
 export const Dashboard = () => {
@@ -54,6 +56,10 @@ export const Dashboard = () => {
           lastTransaction="Última entrada no dia 10 de novembro"
         />
       </HightLightCards>
+
+      <Transactions>
+        <Title>Transações</Title>
+      </Transactions>
     </Container>
   );
 };
