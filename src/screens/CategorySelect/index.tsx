@@ -20,7 +20,7 @@ interface ICategoryProps {
 }
 
 interface ICategorySelectProps {
-  category: string;
+  category: ICategoryProps;
   setCategory: (item: ICategoryProps) => void;
   closeCategorySelect: () => void;
 }
@@ -32,7 +32,7 @@ export const CategorySelect = ({
 }: ICategorySelectProps) => {
   return (
     <Container>
-      <StatusBar translucent backgroundColor="transparent" />
+      <StatusBar style="light" translucent backgroundColor="transparent" />
 
       <Header>
         <Title>Categoria</Title>
@@ -43,7 +43,10 @@ export const CategorySelect = ({
         style={{ flex: 1, width: '100%' }}
         keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
-          <Category>
+          <Category
+            onPress={() => setCategory({ key: item.key, name: item.name })}
+            isActive={category.key === item.key}
+          >
             <Icon name={item.icon} />
             <Name>{item.name}</Name>
           </Category>
@@ -52,11 +55,7 @@ export const CategorySelect = ({
       />
 
       <Footer>
-        <Button title="Selecionar" />
-
-        {/* <Button>
-          <ButtonText>Selecionar</ButtonText>
-        </Button> */}
+        <Button title="Selecionar" onPress={closeCategorySelect} />
       </Footer>
     </Container>
   );

@@ -12,10 +12,18 @@ import {
 } from './styles';
 import { Button } from '../../components/form/Button';
 import { TransactionTypeButton } from '../../components/form/TransactionTypeButton';
-import { CategorySelect } from '../../components/form/CategorySelect';
+import { CategorySelectButton } from '../../components/form/CategorySelectButton';
+import { Modal } from 'react-native';
+import { CategorySelect } from '../CategorySelect';
 
-export const Cadastro = () => {
+export const Register = () => {
   const [selectedType, setSelectedType] = useState('');
+  const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+
+  const [category, setCategory] = useState({
+    key: 'category',
+    name: 'Categoria',
+  });
 
   const handleSelect = (type: 'up' | 'down') => {
     setSelectedType(type);
@@ -23,7 +31,7 @@ export const Cadastro = () => {
 
   return (
     <Container>
-      <StatusBar backgroundColor="transparent" translucent />
+      <StatusBar style="light" translucent backgroundColor="transparent" />
 
       <Header>
         <Title>Cadastro</Title>
@@ -49,11 +57,22 @@ export const Cadastro = () => {
             />
           </TransactionTypes>
 
-          <CategorySelect title="Categoria" />
+          <CategorySelectButton
+            title={category.name}
+            onPress={() => setCategoryModalOpen(true)}
+          />
         </Fields>
 
         <Button title="Enviar" />
       </Form>
+
+      <Modal visible={categoryModalOpen}>
+        <CategorySelect
+          category={category}
+          setCategory={setCategory}
+          closeCategorySelect={() => setCategoryModalOpen(false)}
+        />
+      </Modal>
     </Container>
   );
 };
