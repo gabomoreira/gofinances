@@ -15,9 +15,16 @@ import { TransactionTypeButton } from '../../components/form/TransactionTypeButt
 import { CategorySelectButton } from '../../components/form/CategorySelectButton';
 import { Modal } from 'react-native';
 import { CategorySelect } from '../CategorySelect';
+import { InputHookForm } from '../../components/form/InputHookForm';
+import { useForm } from 'react-hook-form';
+
+interface FormData {
+  name: string;
+  amount: string;
+}
 
 export const Register = () => {
-  const [selectedType, setSelectedType] = useState('');
+  const [transactionType, setTransactionType] = useState('');
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
 
   const [category, setCategory] = useState({
@@ -25,8 +32,21 @@ export const Register = () => {
     name: 'Categoria',
   });
 
+  const { control, handleSubmit } = useForm();
+
   const handleSelect = (type: 'up' | 'down') => {
-    setSelectedType(type);
+    setTransactionType(type);
+  };
+
+  const handleRegister = (formData: FormData) => {
+    const data = {
+      name: formData.name,
+      amount: formData.amount,
+      transactionType,
+      category: category.key,
+    };
+
+    console.log(data);
   };
 
   return (
@@ -39,18 +59,18 @@ export const Register = () => {
 
       <Form>
         <Fields>
-          <Input placeholder="Nome" />
-          <Input placeholder="Preço" />
+          <InputHookForm control={control} name="name" placeholder="Nome" />
+          <InputHookForm control={control} name="amount" placeholder="Preço" />
 
           <TransactionTypes>
             <TransactionTypeButton
-              isActive={selectedType === 'up'}
+              isActive={transactionType === 'up'}
               onPress={() => handleSelect('up')}
               title="Entrada"
               type="up"
             />
             <TransactionTypeButton
-              isActive={selectedType === 'down'}
+              isActive={transactionType === 'down'}
               onPress={() => handleSelect('down')}
               title="Saída"
               type="down"
@@ -63,7 +83,7 @@ export const Register = () => {
           />
         </Fields>
 
-        <Button title="Enviar" />
+        <Button title="Enviar" onPress={handleSubmit(handleRegister)} />
       </Form>
 
       <Modal visible={categoryModalOpen}>
