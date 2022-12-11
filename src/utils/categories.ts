@@ -18,6 +18,12 @@ export const categories = [
     color: '#12A454',
   },
   {
+    key: 'sales',
+    name: 'Vendas',
+    icon: 'tag',
+    color: 'orange',
+  },
+  {
     key: 'leisure',
     name: 'Lazer',
     icon: 'heart',

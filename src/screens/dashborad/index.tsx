@@ -9,6 +9,7 @@ import {
   User,
   UserGreeting,
   UserName,
+  LogoutButton,
   PowerIcon,
   HightLightCards,
   Transactions,
@@ -77,7 +78,10 @@ export const Dashboard = () => {
               <UserName>Gabriel</UserName>
             </User>
           </UserInfo>
-          <PowerIcon name="power" />
+
+          <LogoutButton onPress={() => {}}>
+            <PowerIcon name="power" />
+          </LogoutButton>
         </Wrapper>
       </Header>
 

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import uuid from 'react-native-uuid';
 
 import { Input } from '../../components/form/Input';
 import {
@@ -20,6 +21,8 @@ import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from 'react-native';
 import { CategorySelect } from '../CategorySelect';
 import { InputHookForm } from '../../components/form/InputHookForm';
 import { useForm } from 'react-hook-form';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 interface FormData {
   name: string;
@@ -31,43 +34,83 @@ const formDataValidation = yup.object().shape({
   amount: yup
     .number()
     .typeError('Informe um valor numérico')
-    .positive('O valor não pode ser negativo'),
+    .positive('O valor não pode ser negativo')
+    .required('Preço é obrigatório'),
 });
 
-export const Register = () => {
+export const Register = ({ navigation }) => {
   const [transactionType, setTransactionType] = useState('');
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+  const dataKey = '@gofinances:transaction';
 
   const [category, setCategory] = useState({
     key: 'category',
     name: 'Categoria',
   });
+  // const navigation = useNavigation();
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(formDataValidation) });
+    reset,
+  } = useForm({
+    resolver: yupResolver(formDataValidation, { abortEarly: false }),
+  });
 
   const handleSelect = (type: 'up' | 'down') => {
     setTransactionType(type);
   };
 
-  const handleRegister = (formData: FormData) => {
+  const handleRegister = async (formData: FormData) => {
     if (!transactionType) return Alert.alert('Selecione um tipo de transação');
 
     if (category.key === 'category')
       return Alert.alert('Selecione uma categoria');
 
-    const data = {
+    const newTransaction = {
+      id: String(uuid.v4()),
       name: formData.name,
       amount: formData.amount,
       transactionType,
       category: category.key,
+      data: new Date(),
     };
 
-    console.log(data);
+    try {
+      const data = await AsyncStorage.getItem(dataKey);
+      const currentData = data ? JSON.parse(data) : [];
+      const dataFormated = [...currentData, newTransaction];
+
+      await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormated));
+
+      reset();
+      setTransactionType('');
+      setCategory({
+        key: 'category',
+        name: 'Categoria',
+      });
+
+      navigation.navigate('Transações');
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Não foi possível cadastrar');
+    }
   };
+
+  useEffect(() => {
+    // const loadData = async () => {
+    //   const data = await AsyncStorage.getItem(dataKey);
+    //   console.log(JSON.parse(data));
+    // };
+
+    // loadData();
+
+    const removeAll = async () => {
+      await AsyncStorage.removeItem(dataKey);
+    };
+    removeAll();
+  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
