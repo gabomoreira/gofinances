@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 
 import * as yup from 'yup';
@@ -22,7 +22,7 @@ import { CategorySelect } from '../CategorySelect';
 import { InputHookForm } from '../../components/form/InputHookForm';
 import { useForm } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 interface FormData {
   name: string;
@@ -41,7 +41,7 @@ const formDataValidation = yup.object().shape({
 export const Register = ({ navigation }) => {
   const [transactionType, setTransactionType] = useState('');
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
-  const dataKey = '@gofinances:transaction';
+  const dataKey = '@gofinances:transactions';
 
   const [category, setCategory] = useState({
     key: 'category',
@@ -58,7 +58,7 @@ export const Register = ({ navigation }) => {
     resolver: yupResolver(formDataValidation, { abortEarly: false }),
   });
 
-  const handleSelect = (type: 'up' | 'down') => {
+  const handleSelect = (type: 'positive' | 'negative') => {
     setTransactionType(type);
   };
 
@@ -72,9 +72,9 @@ export const Register = ({ navigation }) => {
       id: String(uuid.v4()),
       name: formData.name,
       amount: formData.amount,
-      transactionType,
+      type: transactionType,
       category: category.key,
-      data: new Date(),
+      date: new Date(),
     };
 
     try {
@@ -98,19 +98,16 @@ export const Register = ({ navigation }) => {
     }
   };
 
-  useEffect(() => {
-    // const loadData = async () => {
-    //   const data = await AsyncStorage.getItem(dataKey);
-    //   console.log(JSON.parse(data));
-    // };
-
-    // loadData();
-
-    const removeAll = async () => {
-      await AsyncStorage.removeItem(dataKey);
-    };
-    removeAll();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      reset();
+      setTransactionType('');
+      setCategory({
+        key: 'category',
+        name: 'Categoria',
+      });
+    }, [])
+  );
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -141,16 +138,16 @@ export const Register = ({ navigation }) => {
 
             <TransactionTypes>
               <TransactionTypeButton
-                isActive={transactionType === 'up'}
-                onPress={() => handleSelect('up')}
+                isActive={transactionType === 'positive'}
+                onPress={() => handleSelect('positive')}
                 title="Entrada"
-                type="up"
+                type="positive"
               />
               <TransactionTypeButton
-                isActive={transactionType === 'down'}
-                onPress={() => handleSelect('down')}
+                isActive={transactionType === 'negative'}
+                onPress={() => handleSelect('negative')}
                 title="Saída"
-                type="down"
+                type="negative"
               />
             </TransactionTypes>
 
