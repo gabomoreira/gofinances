@@ -38,7 +38,9 @@ export const HightLightCard = ({
 
       <Footer>
         <Amount type={type}>{amount}</Amount>
-        <LastTransaction type={type}>{lastTransaction}</LastTransaction>
+        {lastTransaction && (
+          <LastTransaction type={type}>{lastTransaction}</LastTransaction>
+        )}
       </Footer>
     </Container>
   );
