@@ -39,7 +39,7 @@ export const categories = [
     key: 'home',
     name: 'Moradia',
     icon: 'home',
-    color: 'browm',
+    color: 'black',
   },
   {
     key: 'health',
